@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aash ❤️</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      max-width: 420px;
+      width: 92%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      color: #ff4d6d;
+      margin-bottom: 10px;
+    }
+
+    .handwritten {
+      font-family: "Pacifico", cursive;
+      font-size: 1.2rem;
+      color: #ff4d6d;
+      margin: 15px 0;
+    }
+
+    p {
+      color: #444;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .inside-joke {
+      font-size: 0.95rem;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+    position: relative;
+    height: 160px;
+    width: 100%;
+    overflow: hidden;
+    }
+
+    button {
+      padding: 14px 28px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background: #ff4d6d;
+      color: white;
+      left: 50%;
+      transform: translateX(-120%);
+    }
+
+    #noBtn {
+      background: #ddd;
+      color: #333;
+      left: 50%;
+      transform: translateX(20%);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      color: #ff4d6d;
+      font-weight: 600;
+    }
+
+    #yesGif {
+        position: absolute;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #yesGif img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 16px;
+    }
+
+    /* Floating Hearts */
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: floatUp 6s linear infinite;
+      opacity: 0.7;
+    }
+
+    .puzzle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        margin-top: 15px;
+    }
+
+    .puzzle input {
+        width: 85%;
+        max-width: 280px;
+        text-align: center;
+    }
+
+    .puzzle button {
+        margin-top: 45px;
+    }
+
+    .puzzle p {
+        margin-top: 45px;
+    }
+
+    .puzzle .hidden {
+        display: none;
+    }
+
+    #hiddenMessage {
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(-110vh) scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    @keyframes shake {
+        0% { transform: translate(0, 0); }
+        25% { transform: translate(-3px, 3px); }
+        50% { transform: translate(3px, -3px); }
+        75% { transform: translate(-3px, -3px); }
+        100% { transform: translate(0, 0); }
+    }
+
+    .no-shake {
+     animation: shake 0.25s;
+    }
+
+    /* Photo section */
+    .photos {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .photos img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .timeline {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.timeline-title {
+    color: #ff4d6d;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .timeline {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.tile img,
+.tile video {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.tile video {
+    display: block;
+    background: black;
+}
+
+.tile span {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+/* Future tile */
+.future .question {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.journey {
+  margin: 25px 0 10px;
+  text-align: center;
+}
+
+.journey h3 {
+  color: #ff4d6d;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.journey video {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  background: black;
+}
+
+.journey {
+  animation: fadeUp 0.6s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="lover.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <h1>Aashana Shah ❤️</h1>
+
+    <p>
+      We’ve spent <b>5 beautiful years</b> together 🥺  
+      And this is our <b>6th Valentine’s Day</b> 💘
+    </p>
+
+    <div class="handwritten">
+      I’d choose you in every lifetime.
+    </div>
+
+    <p class="inside-joke">
+      but... if you say YES next year will be seven.  
+      <br/><br/>sevenn, sevennn, sevennnn, sevennn  
+    </p>
+
+    <h2>Will you be my Valentine? 💕</h2>
+    <p class="inside-joke">today is propose day (08-02-2026), so I am eventually following the valentine's week </p>
+
+    <div class="buttons">
+      <button id="yesBtn">YES 💖</button>
+      <button id="noBtn">NO 🙃</button>
+
+      <div id="yesGif" class="hidden">
+        <img 
+            src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif"
+            alt="Happy dance"
+        />
+      </div>
+    </div>
+
+    <!-- Journey Video Section -->
+<div class="journey">
+  <h3>Our journey till first date ❤️</h3>
+
+  <video
+    controls
+    playsinline
+    preload="metadata"
+    poster="journey-poster.jpg"
+  >
+    <source src="journey.mp4" type="video/mp4" />
+    Your browser does not support the video.
+  </video>
+</div>
+
+    <!-- Optional Photos -->
+     <h3 class="timeline-title">Our Valentines over the years ❤️</h3>
+    <div class="timeline">
+  <!-- 2021 -->
+  <div class="tile">
+    <img src="photo2021.jpg" alt="Valentine 2021" />
+    <span>14 Feb 2021</span>
+  </div>
+
+  <!-- 2022 (Video) -->
+  <div class="tile">
+    <video src="photo2022.MP4" muted autoplay loop playsinline preload="auto"></video>
+    <span>14 Feb 2022</span>
+  </div>
+
+  <!-- 2023 -->
+  <div class="tile">
+    <img src="photo2023.jpg" alt="Valentine 2023" />
+    <span>14 Feb 2023</span>
+  </div>
+
+  <!-- 2024 -->
+  <div class="tile">
+    <img src="photo2024.jpg" alt="Valentine 2024" />
+    <span>14 Feb 2024</span>
+  </div>
+
+  <!-- 2025 -->
+  <div class="tile">
+    <img src="photo2025.jpg" alt="Valentine 2025" />
+    <span>14 Feb 2025</span>
+  </div>
+
+  <!-- 2026 (Future) -->
+  <div class="tile future">
+    <div class="question">?</div>
+    <span>14 Feb 2026</span>
+  </div>
+</div>
+
+    <div id="result" class="result hidden">
+      YAYYY 🥹❤️  
+      Best decision ever.  
+      I love you endlessly 💞
+    </div>
+
+    <div id="secret" class="hidden" style="margin-top:20px;">
+        <p style="font-weight:600;">Psst… Aash 👀</p>
+        <p>Now some serious business!</p>
+        <p>I hid something for you. Solve this to unlock it 🧩</p>
+
+        <p style="font-style:italic; text-align:center;">
+            A little memory test 🧠❤️<br/>
+            We’ve celebrated Valentine’s Day together 6 times.<br/>
+            Where did we go for Valentine's last year?
+        </p>
+
+        <div class="puzzle">
+            <input 
+            id="answerInput"
+            type="text"
+            placeholder="Your answer..."
+            />
+
+            <button id="checkAnswer">
+            Unlock 💖
+            </button>
+
+            <p id="hint" style="color:#ff4d6d;"></p>
+
+            <div id="hiddenMessage" class="hidden">
+            <p class="handwritten">
+                You solved it 🥹❤️
+            </p>
+            <p style="text-align:center;">
+                We went to the Carnival day before and then Thai Basil for our Datee<br/><br />
+                If you’re willing to say YES again and again,<br/>
+                then I promise to keep choosing you<br/>
+                in every version of us, forever 💞 <br/><br/><br/>
+
+                (the ulimate gift will be in a few months or so maybe end of this year, could be anytimeee &#128521;)
+            </p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+    const result = document.getElementById("result");
+    const music = document.getElementById("bgMusic");
+
+    let escapeCount = 0;
+    const noTexts = [
+    "NO 🙃",
+    "Are you sure?",
+    "Really?",
+    "Babe no 😭",
+    "OK FINE 😤"
+    ];
+
+    function moveNoButton() {
+    const container = document.querySelector(".buttons");
+    const containerRect = container.getBoundingClientRect();
+    const btnRect = noBtn.getBoundingClientRect();
+
+    const maxX = containerRect.width - btnRect.width;
+    const maxY = containerRect.height - btnRect.height;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+
+    // Shake + shrink
+    noBtn.classList.add("no-shake");
+    setTimeout(() => noBtn.classList.remove("no-shake"), 250);
+
+    const scale = Math.max(0.6, 1 - escapeCount * 0.1);
+    noBtn.style.transform = `scale(${scale})`;
+
+    // Change text
+    if (escapeCount < noTexts.length) {
+        noBtn.innerText = noTexts[escapeCount];
+    }
+
+    // Final transformation 😈
+    if (escapeCount === noTexts.length - 1) {
+        noBtn.style.background = "#ff4d6d";
+        noBtn.style.color = "white";
+        noBtn.onclick = () => yesBtn.click();
+    }
+
+    escapeCount++;
+    }
+
+    noBtn.addEventListener("mouseenter", moveNoButton);
+    noBtn.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        moveNoButton();
+    });
+
+    yesBtn.addEventListener("click", () => {
+      music.muted = false;
+    music.volume = 0.7;
+
+    const playPromise = music.play();
+    if (playPromise !== undefined) {
+    playPromise.catch(() => {
+        console.log("Music play blocked until user interaction");
+    });
+    }
+      secret.classList.remove("hidden");
+      result.classList.remove("hidden");
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+
+      document.getElementById("yesGif").classList.remove("hidden");
+
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.6 }
+      });
+    });
+
+    const secret = document.getElementById("secret");
+    const answerInput = document.getElementById("answerInput");
+    const checkAnswer = document.getElementById("checkAnswer");
+    const hint = document.getElementById("hint");
+    const hiddenMessage = document.getElementById("hiddenMessage");
+
+    checkAnswer.addEventListener("click", () => {
+    const answer = answerInput.value.toLowerCase().trim();
+
+    const normalizedAnswer = answer.replace(/\s+/g, " ").trim();
+
+    const isCorrect =
+    normalizedAnswer === "thai basil" ||
+    normalizedAnswer === "thaibasil";
+
+    if (isCorrect) {
+        hiddenMessage.classList.remove("hidden");
+        hint.innerText = "";
+        confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.7 }
+        });
+    } else {
+        hint.innerText = "Hint: Its related to `No Honey, No Money` 😉";
+    }
+    });
+
+    // Floating hearts generator
+    setInterval(() => {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }, 500);
+  </script>
+
+</body>
+</html>
